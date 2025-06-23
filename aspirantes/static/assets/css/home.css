@@ -2,8 +2,9 @@ body {
   background-color: #f0f0f0;
 }
 
-h1 {
+.modal-header h1 {
   width: 100%;
+  text-align: center;
 }
 
 .color_primary {

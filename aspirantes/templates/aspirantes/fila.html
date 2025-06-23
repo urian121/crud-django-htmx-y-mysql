@@ -1,10 +1,10 @@
 <tr id="aspirante_{{ aspirante.id }}">
-    <th>{{ aspirante.id }}</th>
+    <th class="text-center">{{ aspirante.id }}</th>
     <td>{{ aspirante.nombre }}</td>
     <td>{{ aspirante.email }}</td>
     <td>{{ aspirante.sexo }}</td>
     <td>{{ aspirante.curso }}</td>
-    <td>
+    <td class="text-center">
       {% if aspirante.habla_ingles %}
         <span class="badge text-bg-success">Sí</span>
       {% else %}
@@ -14,19 +14,21 @@
     <td>
       <div class="form-check form-switch">
         <input type="checkbox" 
-               hx-post="{% url 'cambiar_estado' aspirante.id %}" 
-               hx-vals='js:{"estado": event.target.checked ? "1" : "0"}' 
-               hx-target="#estado_{{ aspirante.id }}" 
-               hx-trigger="change" 
-               hx-swap="outerHTML"
-               class="form-check-input" {% if aspirante.activo %}checked{% endif %}>
-        <label id="estado_{{ aspirante.id }}">
-          {% if aspirante.activo %}
-            <i class="bi bi-person-fill-check text-success fs-5"></i>
-          {% else %}
-            <i class="bi bi-person-fill-slash text-danger fs-5"></i>
-          {% endif %}
-        </label>
+            hx-post="{% url 'cambiar_estado' aspirante.id %}" 
+            hx-vals='js:{"aceptado": event.target.checked ? "1" : "0"}' 
+            hx-target="#aspirante_{{ aspirante.id }}" 
+            hx-trigger="change" 
+            hx-swap="outerHTML"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            class="form-check-input" {% if aspirante.aceptado %}checked{% endif %}>
+
+            <label id="estado_{{ aspirante.id }}">
+              {% if aspirante.aceptado %}
+                <span class="badge text-bg-success">Aceptado</span>
+              {% else %}
+                <span class="badge text-bg-warning">Rechazado</span>
+              {% endif %}
+            </label>
       </div>
     </td>
     <td>{{ aspirante.created_at|date:"d-m-Y" }}</td>

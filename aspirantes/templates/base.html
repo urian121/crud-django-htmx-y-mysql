@@ -40,6 +40,27 @@
     <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastjs-notifications@1.11.14/toast-notifications.min.js"></script>
     <script src="{% static 'assets/js/home.js' %}"></script>
-</script>
+
+    <script>
+    const tables = document.querySelectorAll("table");
+    if (tables.length > 0) {
+      tables.forEach((table) => {
+        const existingTable = $(table).DataTable();
+        if (existingTable) {
+          existingTable.destroy();
+        }
+        $(table).DataTable({
+          pageLength: 8,
+          order: [[0, "desc"]],
+          language: {
+            url: "https://cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
+          },
+          initComplete: function () {
+            console.log("Tabla inicializada correctamente");
+          },
+        });
+      });
+    }
+    </script>
 </body>
 </html>
