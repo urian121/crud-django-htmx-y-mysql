@@ -1,0 +1,53 @@
+<tr id="aspirante_{{ aspirante.id }}">
+    <th>{{ aspirante.id }}</th>
+    <td>{{ aspirante.nombre }}</td>
+    <td>{{ aspirante.email }}</td>
+    <td>{{ aspirante.sexo }}</td>
+    <td>{{ aspirante.curso }}</td>
+    <td>
+      {% if aspirante.habla_ingles %}
+        <span class="badge text-bg-success">Sí</span>
+      {% else %}
+        <span class="badge text-bg-secondary">No</span>
+      {% endif %}
+    </td>
+    <td>
+      <div class="form-check form-switch">
+        <input type="checkbox" 
+               hx-post="{% url 'cambiar_estado' aspirante.id %}" 
+               hx-vals='js:{"estado": event.target.checked ? "1" : "0"}' 
+               hx-target="#estado_{{ aspirante.id }}" 
+               hx-trigger="change" 
+               hx-swap="outerHTML"
+               class="form-check-input" {% if aspirante.activo %}checked{% endif %}>
+        <label id="estado_{{ aspirante.id }}">
+          {% if aspirante.activo %}
+            <i class="bi bi-person-fill-check text-success fs-5"></i>
+          {% else %}
+            <i class="bi bi-person-fill-slash text-danger fs-5"></i>
+          {% endif %}
+        </label>
+      </div>
+    </td>
+    <td>{{ aspirante.created_at|date:"d-m-Y" }}</td>
+    <td>
+      <div class="flex_btns">
+        <a href="#" hx-get="{% url 'ver_aspirante' aspirante.id %}" 
+           hx-target="#modal_container" 
+           hx-swap="innerHTML">
+          <i class="bi bi-box-arrow-up-right"></i>
+        </a>
+        <a href="#" hx-get="{% url 'editar_aspirante' aspirante.id %}" 
+           hx-target="#modal_container" 
+           hx-swap="innerHTML">
+          <i class="bi bi-arrow-clockwise"></i>
+        </a>    
+        <a href="#" hx-get="{% url 'eliminar_aspirante' aspirante.id %}" 
+           hx-target="#modal_container" 
+           hx-swap="innerHTML">
+          <i class="bi bi-trash3"></i>
+        </a>
+      </div>
+    </td>
+  </tr>
+  
