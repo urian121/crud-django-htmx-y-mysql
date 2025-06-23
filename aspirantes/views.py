@@ -56,11 +56,66 @@ def listar_aspirantes(request):
 def cambiar_estado(request, id_aspirante):
     pass
 
+# Función para obtener y preparar los datos de un aspirante
 def ver_aspirante(request, id_aspirante):
-    pass
+    data = _get_aspirante_data(request, id_aspirante)
+    if data:
+        return render(request, 'aspirantes/modales/modalView.html', data)
+    return HttpResponse(status=404)
+
+# Función para obtener y preparar los datos de un aspirante
+def modal_update_aspirante(request, id_aspirante):
+    data = _get_aspirante_data(request, id_aspirante)
+    if data:
+        return render(request, 'aspirantes/modales/modalUpdate.html', data)
+    return HttpResponse(status=404)
 
 def editar_aspirante(request, id_aspirante):
-    pass
+    if request.method == 'POST':
+        try:
+            aspirante = Aspirante.objects.get(id=id_aspirante)
+            aspirante.nombre = request.POST.get('nombre')
+            aspirante.email = request.POST.get('email')
+            aspirante.curso = request.POST.get('curso')
+            aspirante.sexo = request.POST.get('sexo')
+            aspirante.habla_ingles = request.POST.get('habla_ingles') == 'on'
+            aspirante.save()
+            messages.success(request, 'Aspirante actualizado correctamente')
+            html = render_to_string('aspirantes/fila.html', {'aspirante': aspirante}, request=request)
+            return HttpResponse(html, status=200)
+        except Exception as e:
+            messages.error(request, 'Error al actualizar aspirante: ' + str(e))
+            return JsonResponse({'error': str(e)}, status=500)
     
+    return HttpResponse(status=204)  # Respuesta vacía, ideal para HTMX
+    
+    
+def modal_delete_aspirante(request, id_aspirante):
+    data = _get_aspirante_data(request, id_aspirante)
+    if data:
+        return render(request, 'aspirantes/modales/modalDelete.html', data)
+    return HttpResponse(status=404)
+
+
 def eliminar_aspirante(request, id_aspirante):
-    pass
+    try:
+        aspirante = Aspirante.objects.get(id=id_aspirante)
+        aspirante.delete()
+        messages.success(request, 'Aspirante eliminado correctamente')
+        return HttpResponse(status=204) # Respuesta vacía, ideal para HTMX
+    except Aspirante.DoesNotExist:
+        messages.error(request, 'Aspirante no encontrado')
+        return HttpResponse(status=404) # Respuesta vacía, ideal para HTMX
+    except Exception as e:
+        messages.error(request, f'Error al eliminar aspirante: {str(e)}')
+        return HttpResponse(status=500) # Respuesta vacía, ideal para HTMX
+
+
+# Función auxiliar para obtener y preparar los datos de un aspirante
+def _get_aspirante_data(request, id_aspirante):
+    try:
+        aspirante = Aspirante.objects.get(id=id_aspirante)
+        return {'aspirante': aspirante}
+    except Aspirante.DoesNotExist:
+        messages.error(request, 'Aspirante no encontrado')
+        return None

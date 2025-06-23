@@ -40,66 +40,6 @@
     <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/toastjs-notifications@1.11.14/toast-notifications.min.js"></script>
     <script src="{% static 'assets/js/home.js' %}"></script>
-    <script>
-// SOLUCIÓN 1: Usar CDN oficial de DataTables para español
-function initializeDataTables() {
-    let tables = document.querySelectorAll("table");
-    if (tables.length == 0) return;
-  
-    tables.forEach((table) => {
-      let tableId = table.id;
-  
-      // Verificar si la tabla ya tiene DataTables inicializado
-      if ($.fn.DataTable.isDataTable(`#${tableId}`)) {
-        $(`#${tableId}`).DataTable().destroy();
-      }
-  
-      // Inicializar DataTables con CDN de idioma
-      $(`#${tableId}`).DataTable({
-        pageLength: 10,
-        language: {
-          url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json",
-        },
-        responsive: true,
-        dom: "Blfrtip",
-        lengthMenu: [
-          [10, 25, 50, -1],
-          [10, 25, 50, "Todos"],
-        ],
-      });
-    });
-  }
-  
-  // Inicializar cuando se carga la página
-  document.addEventListener("DOMContentLoaded", function () {
-    initializeDataTables();
-  });
-  
-  // Reinicializar después de que HTMX cargue contenido
-  document.body.addEventListener("htmx:afterSettle", function (evt) {
-    if (evt.detail.target.querySelector("table")) {
-      setTimeout(function () {
-        initializeDataTables();
-      }, 150);
-    }
-  });
-  
-  document.body.addEventListener("htmx:afterSwap", function (evt) {
-    if (evt.detail.target.querySelector("table")) {
-      setTimeout(function () {
-        initializeDataTables();
-      }, 150);
-    }
-  });
-  
-  // Limpiar DataTables antes del intercambio
-  document.body.addEventListener("htmx:beforeSwap", function (evt) {
-    $("table").each(function () {
-      if ($.fn.DataTable.isDataTable(this)) {
-        $(this).DataTable().destroy();
-      }
-    });
-  });
 </script>
 </body>
 </html>

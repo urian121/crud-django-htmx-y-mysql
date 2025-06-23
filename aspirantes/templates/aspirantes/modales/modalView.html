@@ -1,0 +1,62 @@
+<div
+  class="modal fade"
+  id="modal_view_aspirante"
+  tabindex="-1"
+  aria-labelledby="modal_view_aspirante_title"
+  aria-hidden="true"
+  data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3 opacity-75 text-center">
+          Datos del aspirante
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <label for="nombre" class="form-label float-start fw-bold">Nombre: </label>
+            <span class="float-start mx-2">{{ aspirante.nombre }}</span>
+          </li>
+          <li class="list-group-item">
+            <label for="email" class="form-label float-start fw-bold">Email: </label>
+            <span class="float-start mx-2">{{ aspirante.email }}</span>
+          </li>
+          <li class="list-group-item">
+            <label for="curso" class="form-label float-start fw-bold">Curso: </label>
+            <span class="float-start mx-2">{{ aspirante.curso }}</span>
+          </li>
+          <li class="list-group-item">
+            <label for="sexo" class="form-label float-start fw-bold">Sexo: </label>
+            <span class="float-start mx-2">{{ aspirante.sexo }}</span>
+          </li>
+          <li class="list-group-item">
+            <label for="habla_ingles" class="form-label float-start fw-bold">Habla inglés: </label>
+            <span class="float-start mx-2">{{ aspirante.habla_ingles }}</span>
+          </li>
+          <li class="list-group-item">
+            <label for="created_at" class="form-label float-start fw-bold">Fecha creación: </label>
+            <span class="float-start mx-2">{{ aspirante.created_at }}</span>
+          </li>
+        </ul>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cerrar
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
