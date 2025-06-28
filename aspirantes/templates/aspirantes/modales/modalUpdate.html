@@ -29,7 +29,6 @@
             showToast.error('Error al actualizar');
           }">
           {% csrf_token %}
-          <input type="text" name="id" value="{{ aspirante.id }}" hidden>
 
           <div class="row">
             <div class="col-6">
@@ -110,18 +109,20 @@
 
           <div class="mb-3 text-start">
             <label for="habla_ingles" class="form-label">Hablas inglés</label>
-            <div class="form-check form-switch">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                role="switch"
+              <div class="form-check form-switch">
+              <input class="form-check-input" 
+                type="checkbox" 
+                role="switch" 
                 id="habla_ingles"
                 name="habla_ingles"
-                {% if aspirante.habla_ingles %}checked{% endif %} />
-              <label class="form-check-label" for="habla_ingles">Sí</label>
-            </div>
+                {% if aspirante.habla_ingles %}checked{% endif %}
+                onchange="this.closest('div').querySelector('.form-check-label').textContent = this.checked ? 'Sí' : 'No'"
+              />
+                <label class="form-check-label px-2 bg-info text-white rounded" for="habla_ingles">
+                  {% if aspirante.habla_ingles %}Sí{% else %}No{% endif %}
+                </label>
+              </div>
           </div>
-
          
           <div class="row">
             {% if aspirante.imagen_perfil %}
